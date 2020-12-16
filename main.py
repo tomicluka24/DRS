@@ -1,7 +1,11 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QStackedWidget, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QIcon
+import map
 import sys
+
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 480
 
 
 class MainWindow(QMainWindow):
@@ -23,7 +27,13 @@ class MainWindow(QMainWindow):
         size = self.geometry()
         self.move(int((screen.width() - size.width()) / 2), int((screen.height() - size.height()) / 2))
 
+    def center2(self):
+        screen = QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move(int((screen.width() - size.width()) / 2.5), int((screen.height() - size.height()) / 3))
+
     def menu(self):
+        self.mainMenuWidget.playGameSignal.connect(self.play)
         self.mainMenuWidget.quitGameSignal.connect(self.quit)
 
         self.centralWidget.addWidget(self.mainMenuWidget)
@@ -32,6 +42,11 @@ class MainWindow(QMainWindow):
         self.resize(340, 280)
         self.center1()
 
+    def play(self):
+        self.setCentralWidget(map.Map())
+        self.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.center2()
+
     @staticmethod
     def quit():
         sys.exit()
@@ -39,6 +54,7 @@ class MainWindow(QMainWindow):
 
 class MainMenu(QWidget):
 
+    playGameSignal = pyqtSignal()
     quitGameSignal = pyqtSignal()
 
     def __init__(self):
@@ -53,6 +69,7 @@ class MainMenu(QWidget):
         self.play_button.setFixedWidth(button_width)
         self.play_button.setFixedHeight(button_height)
         self.play_button.move(button_left, button_top)
+        self.play_button.clicked.connect(self.play)
 
         quit_button = QPushButton('Quit', self)
         quit_button.setFixedWidth(button_width)
@@ -61,6 +78,9 @@ class MainMenu(QWidget):
         quit_button.clicked.connect(self.quit)
 
         self.show()
+
+    def play(self):
+        self.playGameSignal.emit()
 
     def quit(self):
         self.quitGameSignal.emit()
