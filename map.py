@@ -1,26 +1,73 @@
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPixmap, QPainter
+from PyQt5.QtWidgets import (QMainWindow, QLabel, QDesktopWidget, QFrame, QPushButton)
+from PyQt5.QtGui import (QPainter, QPixmap, QIcon, QMovie, QTextDocument)
+from PyQt5.QtCore import Qt, QThreadPool, pyqtSlot, QCoreApplication
 
+P1_LIFE1_POS = (0, 15)
+P1_LIFE2_POS = (1, 15)
+P1_LIFE3_POS = (2, 15)
 
-class Map(QWidget):
+P2_LIFE1_POS = (13, 15)
+P2_LIFE2_POS = (14, 15)
+P2_LIFE3_POS = (15, 15)
+
+class Map(QFrame):
     def __init__(self):
         super().__init__()
-        self.image = QPixmap('800x600-black-solid-color-background.png')
-        self.setFixedSize(self.image.size())
+        
+        # i = vertical, kolona 
+        # j = horizonal, vrsta
+       
+        self.block_w = 75
+        self.block_h = 50
+
+
+
+        self.board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
 
     def paintEvent(self, event):
+        #print("Event is: ", event)
         painter = QPainter(self)
-        painter.drawPixmap(self.rect(), self.image)
-        painter.drawPixmap(0, -2, 30, 601, QPixmap('../DRSPreplanuliTraktoristi/images/picture1.png'))
-        painter.drawPixmap(30, -2, 740, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture2.png'))
-        painter.drawPixmap(770, -2, 30, 601, QPixmap('../DRSPreplanuliTraktoristi/images/picture3.png'))
-        painter.drawPixmap(30, 569, 740, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture4.png'))
-        painter.drawPixmap(150, 150, 500, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture5.png'))
-        painter.drawPixmap(150, 300, 500, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture6.png'))
-        painter.drawPixmap(150, 450, 500, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture7.png'))
-        painter.drawPixmap(30, 150, 30, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture8.png'))
-        painter.drawPixmap(30, 300, 30, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture9.png'))
-        painter.drawPixmap(30, 450, 30, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture10.png'))
-        painter.drawPixmap(740, 150, 30, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture11.png'))
-        painter.drawPixmap(740, 300, 30, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture12.png'))
-        painter.drawPixmap(740, 450, 30, 30, QPixmap('../DRSPreplanuliTraktoristi/images/picture13.png'))
+        for x in range(16):
+            for y in range(16):
+                if self.board[x][y] == 0:
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
+                elif self.board[x][y] == 1:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                elif self.board[x][y] == 2:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w,x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bub_right.png'))
+                elif self.board[x][y] == 3:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bub_left.png'))
+                elif self.board[x][y] == 4:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_right.png'))
+                elif self.board[x][y] == 5:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_left.png'))
+                elif self.board[x][y] == 6:
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bub_right.png'))
+                elif self.board[x][y] == 7:
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_left.png'))
+
+
+        self.update()
