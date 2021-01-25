@@ -170,11 +170,157 @@ class Player(QLabel):
                         sleep(0.025)
             self.canJump = True
 
+    def shoot(self):
+        (x, y) = (self.player_position[0], self.player_position[1])
+        # igrac.a==2 -> u pitanju je igrac 1->zeleni
+        if (self.a == 2):
+            # igrac p1 trenutno glededa u desno
+            if (self.trenutno == 2):
+                for i in range(1, 4):
+                    # balon na sledecoj poziciji nije naisao ninasta->nacrtaj ga, uspavaj nit pa vrati crno, radi efekta
+                    if self.mapa.board[x][y + i] == 1:
+                        print(i)
+                        self.mapa.board[x][y + i] = 8
+                        sleep(0.1)
+                        print("Woke up")
+                        if (self.mapa.board[x][y + i] == 8):
+                            self.mapa.board[x][y + i] = 1
+                        print("Set to black")
+                    # ako je balon na sledecoj poziciji naisao na neprijatelja koji gleda u desno i zarobi ga
+                    elif self.mapa.board[x][y + i] == 10:
+                        self.mapa.board[x][y + i] = 12
+                        print("UVatio neprijatelja")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        # zarobljeni neprijatelj stoji u balonu 15 sek, ako se posle 15 sek ne uhvati nestane
+                        if self.mapa.board[x][y + i] == 12:
+                            self.mapa.board[x][y + i] = 1
+                            break
+                        break
+                    elif self.mapa.board[x][y + i] == 11:
+                        self.mapa.board[x][y + i] = 13
+                        print("P1 koji gleda desno uhvatio neprijatelja koji gleda levo")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        if self.mapa.board[x][y + i] == 13:
+                            self.mapa.board[x][y + i] = 1
+                            break
+                        break
+                    elif self.mapa.board[x][y + i] == 4 or self.mapa.board[x][y + i] == 5 or self.mapa.board[x][
+                        y + i] == 0 or self.mapa.board[x][y + i] == 2 or self.mapa.board[x][y + i] == 3 or \
+                            self.mapa.board[x][y + i] == 9:  # naisao na prepreku(zid, igraca 2)
+                        break
+            # ako igrac p1 gleda u levo
+            elif (self.trenutno == 3):
+                print("gledam u levo")
+                for i in range(1, 4):
+                    if self.mapa.board[x][y - i] == 1:
+                        print(i)
+                        self.mapa.board[x][y - i] = 8
+                        sleep(0.1)
+                        print("Woke up")
+                        if (self.mapa.board[x][y - i] == 8):
+                            self.mapa.board[x][y - i] = 1
+                        print("Set to black")
+                    # ako je balon na sledecoj poziciji naisao na neprijatelja koji gleda u desno i zarobi ga
+                    elif self.mapa.board[x][y - i] == 10:
+                        self.mapa.board[x][y - i] = 12
+                        print("P1 koji gleda levo uhvatio neprijatelja koji gleda desno")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        # zarobljeni neprijatelj stoji u balonu 15 sek, ako se posle 15 sek ne uhvati nestane
+                        if self.mapa.board[x][y - i] == 12:
+                            self.mapa.board[x][y - i] = 1
+                            break
+                        break
+                    elif self.mapa.board[x][y - i] == 11:
+                        self.mapa.board[x][y - i] = 13
+                        print("P1 koji gleda levo uhvatio neprijatelja koji gleda levo")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        if self.mapa.board[x][y - i] == 13:
+                            self.mapa.board[x][y - i] = 1
+                            break
+                        break
 
+                    elif self.mapa.board[x][y - i] == 4 or self.mapa.board[x][y - i] == 5 or self.mapa.board[x][
+                        y - i] == 0 or self.mapa.board[x][y - i] == 2 or self.mapa.board[x][y - i] == 3 or \
+                            self.mapa.board[x][y - i] == 9:  # naisao na prepreku(zid, igraca 2, balon protivnika)
+                        break
+        elif (self.a == 4):
+            # igrac p2
+            if (self.trenutno == 4):
+                # gleda u desno
+                for i in range(1, 4):
+                    if self.mapa.board[x][y + i] == 1:
+                        print(i)
+                        self.mapa.board[x][y + i] = 9
+                        sleep(0.1)
+                        print("Woke up")
+                        if (self.mapa.board[x][y + i] == 9):
+                            self.mapa.board[x][y + i] = 1
+                        print("Set to black")
+                    elif self.mapa.board[x][y + i] == 10:
+                        self.mapa.board[x][y + i] = 14
+                        print("P2 uhvation neprijatelja koji gleda u desno ")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        # zarobljeni neprijatelj stoji u balonu 15 sek, ako se posle 15 sek ne uhvati nestane
+                        if self.mapa.board[x][y + i] == 14:
+                            self.mapa.board[x][y + i] = 1
+                            break
+                        break
+                    elif self.mapa.board[x][y + i] == 11:
+                        self.mapa.board[x][y + i] = 15
+                        print("P2 koji gleda desno uhvatio neprijatelja koji gleda levo")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        if self.mapa.board[x][y + i] == 15:
+                            self.mapa.board[x][y + i] = 1
+                            break
+                        break
+                    # naisao na prepreku(zid, igraca 2)
+                    elif self.mapa.board[x][y + i] == 4 or self.mapa.board[x][y + i] == 5 or self.mapa.board[x][
+                        y + i] == 0 or self.mapa.board[x][y + i] == 2 or self.mapa.board[x][y + i] == 3 or \
+                            self.mapa.board[x][y + i] == 8:
+                        break
+            if (self.trenutno == 5):
+                for i in range(1, 4):
+                    if self.mapa.board[x][y - i] == 1:
+                        print(i)
+                        self.mapa.board[x][y - i] = 9
+                        sleep(0.1)
+                        print("Woke up")
+                        if (self.mapa.board[x][y - i] == 9):
+                            self.mapa.board[x][y - i] = 1
+                        print("Set to black")
+                    elif self.mapa.board[x][y - i] == 10:
+                        self.mapa.board[x][y - i] = 14
+                        print("P2 uhvation neprijatelja koji gleda u desno ")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        # zarobljeni neprijatelj stoji u balonu 15 sek, ako se posle 15 sek ne uhvati nestane
+                        if self.mapa.board[x][y - i] == 14:
+                            self.mapa.board[x][y - i] = 1
+                            break
+                        break
+                    elif self.mapa.board[x][y - i] == 11:
+                        self.mapa.board[x][y - i] = 15
+                        print("P2 koji gleda levo uhvatio neprijatelja koji gleda levo")
+                        sleep(15)
+                        print("Neprijatelj nestao")
+                        if self.mapa.board[x][y - i] == 15:
+                            self.mapa.board[x][y - i] = 1
+                            break
+                        break
+                    # naisao na prepreku(zid, igraca 2)
+                    elif self.mapa.board[x][y - i] == 4 or self.mapa.board[x][y - i] == 5 or self.mapa.board[x][
+                        y - i] == 0 or self.mapa.board[x][y - i] == 2 or self.mapa.board[x][y - i] == 3 or \
+                            self.mapa.board[x][y - i] == 8:
+                        break
 
     def getCurrentPosition(self):
         return self.player_position
-
 '''
     def moveDown(self):
         #Prvo gledam da li je na onim zivotima ako jeste ne moze dole

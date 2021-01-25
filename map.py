@@ -68,6 +68,11 @@ class Map(QFrame):
                 elif self.board[x][y] == 7:
                     painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
                     painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_left.png'))
-
+                elif self.board[x][y] == 8:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('images/green_bubble1.png'))
+                elif self.board[x][y] == 9:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('images/blue_bubble.png'))
 
         self.update()

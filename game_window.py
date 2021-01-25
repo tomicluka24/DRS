@@ -107,8 +107,9 @@ class GameWindow(QMainWindow):
        # elif key == Qt.Key_S:
         #    self.player1_thread = Thread(target=self.p1.moveDown, args=[])
           #  self.player1_thread.start()
-
-
+        elif key == Qt.Key_Space:
+            self.player1_thread = Thread(target=self.p1.shoot, args=[])
+            self.player1_thread.start()
         if key == Qt.Key_Left:
             self.player2_thread = Thread(target=self.p2.moveLeft, args=[])
             self.player2_thread.start()
@@ -117,6 +118,9 @@ class GameWindow(QMainWindow):
             self.player2_thread.start()
         elif key == Qt.Key_Up:
             self.player2_thread = Thread(target=self.p2.jump, args=[])
+            self.player2_thread.start()
+        elif key == Qt.Key_0:
+            self.player2_thread = Thread(target=self.p2.shoot, args=[])
             self.player2_thread.start()
        # elif key == Qt.Key_Down:
         #    self.player2_thread = Thread(target=self.p2.moveDown, args=[])
