@@ -2,7 +2,8 @@ from PyQt5.QtCore import Qt, QThread
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
 from map import Map
-from player import Player, Enemy
+from player import Player
+from enemy import Enemy
 from key_notifier import KeyNotifier
 
 
