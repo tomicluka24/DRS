@@ -10,17 +10,16 @@ P2_LIFE1_POS = (13, 15)
 P2_LIFE2_POS = (14, 15)
 P2_LIFE3_POS = (15, 15)
 
+
 class Map(QFrame):
     def __init__(self):
         super().__init__()
-        
-        # i = vertical, kolona 
+
+        # i = vertical, kolona
         # j = horizonal, vrsta
-       
+
         self.block_w = 75
         self.block_h = 50
-
-
 
         self.board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -42,37 +41,88 @@ class Map(QFrame):
         ]
 
     def paintEvent(self, event):
-        #print("Event is: ", event)
+        # print("Event is: ", event)
         painter = QPainter(self)
         for x in range(16):
             for y in range(16):
                 if self.board[x][y] == 0:
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('map/map_block.png'))
                 elif self.board[x][y] == 1:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
                 elif self.board[x][y] == 2:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w,x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bub_right.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bub_right.png'))
                 elif self.board[x][y] == 3:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bub_left.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bub_left.png'))
                 elif self.board[x][y] == 4:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_right.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bob_right.png'))
                 elif self.board[x][y] == 5:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_left.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bob_left.png'))
                 elif self.board[x][y] == 6:
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bub_right.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('map/map_block.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bub_right.png'))
                 elif self.board[x][y] == 7:
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('map/map_block.png'))
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('characters/bob_left.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('map/map_block.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bob_left.png'))
                 elif self.board[x][y] == 8:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('images/green_bubble1.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('images/green_bubble1.png'))
                 elif self.board[x][y] == 9:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('images/blue_bubble.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('images/blue_bubble.png'))
+                elif self.board[x][y] == 10:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/benzo_right.png'))
+                elif self.board[x][y] == 11:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/benzo_left.png'))
+                elif self.board[x][y] == 12:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('images/enemy_right_green_capture.png'))
+                elif self.board[x][y] == 13:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('images/enemy_left_green_capture.png'))
+                elif self.board[x][y] == 14:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('images/enemy_right_blue_capture.png'))
+                elif self.board[x][y] == 15:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('images/enemy_left_blue_capture.png'))
+                elif self.board[x][y] == 16:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/boris_right.png'))
+                elif self.board[x][y] == 17:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/boris_left.png'))
+                elif self.board[x][y] == 18:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bonie_right.png'))
+                elif self.board[x][y] == 19:
+                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
+                                       QPixmap('characters/bonie_left.png'))
 
         self.update()
