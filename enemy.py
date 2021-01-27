@@ -55,6 +55,10 @@ class Enemy(QLabel):
                 self.enemy_position = (self.enemy_position[0], self.enemy_position[1] + 1)
                 self.trenutno = self.a
                 self.killplayertwo(self.enemy_position[0],self.enemy_position[1]+1)
+            elif self.mapa.board[self.enemy_position[0]][self.enemy_position[1] + 1] == 16:
+                self.mapa.board[self.enemy_position[0]][self.enemy_position[1]] = 1
+                self.mapa.board[self.enemy_position[0]][self.enemy_position[1] + 1] = self.a
+                self.enemy_position = (self.enemy_position[0], self.enemy_position[1] + 1)
 
             self.canJump = True
 
@@ -85,6 +89,12 @@ class Enemy(QLabel):
                 self.enemy_position = (self.enemy_position[0], self.enemy_position[1] - 1)
                 self.trenutno = self.b
                 self.killplayertwo(self.enemy_position[0],self.enemy_position[1]-1)
+                #brise power
+            elif self.mapa.board[self.enemy_position[0]][self.enemy_position[1] - 1] == 16:
+                self.mapa.board[self.enemy_position[0]][self.enemy_position[1]] = 1
+                self.mapa.board[self.enemy_position[0]][self.enemy_position[1] - 1] = self.b
+                self.enemy_position = (self.enemy_position[0], self.enemy_position[1] - 1)
+                self.trenutno = self.b
             self.canJump = True
 
     def enemy_jump(self):
