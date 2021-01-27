@@ -29,8 +29,7 @@ class Player(QLabel):
         self.imun = False
         self.points=0
         self.multiplayer=1
-
-
+        self.pokupioSilu = False
 
     def moveRight(self):
         if (self.canJump == False):
@@ -105,6 +104,12 @@ class Player(QLabel):
                 self.player_position = (self.player_position[0], self.player_position[1] + 1)
                 self.trenutno = self.a
                 self.aaa()
+            elif self.mapa.board[self.player_position[0]][self.player_position[1] + 1] == 16:
+                self.mapa.board[self.player_position[0]][self.player_position[1]] = 1
+                self.mapa.board[self.player_position[0]][self.player_position[1] + 1] = self.a
+                self.player_position = (self.player_position[0], self.player_position[1] + 1)
+                self.trenutno = self.a
+                self.pokupioSilu = True
 
     def moveLeft(self):
         if (self.canJump == False):
@@ -180,11 +185,16 @@ class Player(QLabel):
                 self.player_position = (self.player_position[0], self.player_position[1] - 1)
                 self.trenutno = self.b
                 self.aaa()
+            elif self.mapa.board[self.player_position[0]][self.player_position[1] - 1] == 16:
+                self.mapa.board[self.player_position[0]][self.player_position[1]] = 1
+                self.mapa.board[self.player_position[0]][self.player_position[1] - 1] = self.b
+                self.player_position = (self.player_position[0], self.player_position[1] - 1)
+                self.trenutno = self.b
+                self.pokupioSilu = True
 
     def jump(self):
         if self.canJump == False:
             print("CAN'T JUMP, JUMPING")
-
         else:
             self.canJump = False
             # trenutno na prorezu, svakim skokom se pomera gore za jedno a gde bio crta crno jer je prorez
@@ -286,7 +296,7 @@ class Player(QLabel):
                 self.aaa()
             else:
                 # nije na prorezu
-                for i in range(3):
+                 for i in range(3):
 
                     print("UP")
                     if (self.mapa.board[self.player_position[0]-1][self.player_position[1]] == 10 or self.mapa.board[self.player_position[0]-1][self.player_position[1]] == 11):
@@ -379,16 +389,27 @@ class Player(QLabel):
                     else:
                             #ako se iznad ne nalazi enemy(niti zarobljen niti ziv) proveri da li smo na poziciji gde je cigla(6,9,12)
                             #ako je na tom mestu na to mesto crtaj ciglu, ako nije crtaj black
-                            if (self.player_position[0]==6 or self.player_position[0]==9 or self.player_position[0]==12):
+                            if (self.mapa.board[self.player_position[0] - 1][self.player_position[1]] == 16):
                                 self.mapa.board[self.player_position[0]][self.player_position[1]] = 0
+                                self.mapa.board[self.player_position[0] - 1][self.player_position[1]] = self.trenutno
+                                self.player_position = (self.player_position[0] - 1, self.player_position[1])
+                                self.pokupioSilu = True
+                                break
+                            elif (self.player_position[0]==6 or self.player_position[0]==9 or self.player_position[0]==12):
+                                self.mapa.board[self.player_position[0]][self.player_position[1]] = 0
+                            #proveri da li je sila iznad ako jeste crtaj sebe i stavi da je pokipio Silu ako ne
+
+
                             else:
-                                self.mapa.board[self.player_position[0]][self.player_position[1]] = 1
+                             self.mapa.board[self.player_position[0]][self.player_position[1]] = 1
                             self.mapa.board[self.player_position[0] - 1][self.player_position[1]] = self.trenutno
                             self.player_position = (self.player_position[0] - 1, self.player_position[1])
                             sleep(0.025)
 
+
                 # skok zavrsen, gravity?
-                self.aaa()
+
+            self.aaa()
 
     def aaa(self):
         while (True):
@@ -493,12 +514,16 @@ class Player(QLabel):
         self.canJump = True
 
     def shoot(self):
+        if(self.pokupioSilu == True):
+            a=6
+        else:
+            a=4
         (x, y) = (self.player_position[0], self.player_position[1])
         # igrac.a==2 -> u pitanju je igrac 1->zeleni
         if (self.a == 2):
             # igrac p1 trenutno glededa u desno
             if (self.trenutno == 2):
-                for i in range(1, 4):
+                for i in range(1, a):
                     # balon na sledecoj poziciji nije naisao ninasta->nacrtaj ga, uspavaj nit pa vrati crno, radi efekta
                     if self.mapa.board[x][y + i] == 1:
                         print(i)
@@ -536,7 +561,7 @@ class Player(QLabel):
             # ako igrac p1 gleda u levo
             elif (self.trenutno == 3):
                 print("gledam u levo")
-                for i in range(1, 4):
+                for i in range(1, a):
                     if self.mapa.board[x][y - i] == 1:
                         print(i)
                         self.mapa.board[x][y - i] = 8
@@ -574,7 +599,7 @@ class Player(QLabel):
             # igrac p2
             if (self.trenutno == 4):
                 # gleda u desno
-                for i in range(1, 4):
+                for i in range(1, a):
                     if self.mapa.board[x][y + i] == 1:
                         print(i)
                         self.mapa.board[x][y + i] = 9
@@ -608,7 +633,7 @@ class Player(QLabel):
                             self.mapa.board[x][y + i] == 8:
                         break
             if (self.trenutno == 5):
-                for i in range(1, 4):
+                for i in range(1, a):
                     if self.mapa.board[x][y - i] == 1:
                         print(i)
                         self.mapa.board[x][y - i] = 9
@@ -644,6 +669,11 @@ class Player(QLabel):
 
     def getCurrentPosition(self):
         return self.player_position
+
+
+
+
+
 
 '''
     def moveDown(self):
@@ -686,12 +716,8 @@ class Player(QLabel):
                         self.mapa.board[self.player_position[0] + 1][self.player_position[1]] = self.trenutno
                         self.player_position = (self.player_position[0] + 1, self.player_position[1])
                         sleep(0.025)
-
-
         self.canDown = True
 '''
-
-
         #POMERANJE DOLE
 '''
     def enemy_move_Down(self):
@@ -734,10 +760,5 @@ class Player(QLabel):
                         self.mapa.board[self.enemy_position[0] + 1][self.enemy_position[1]] = self.trenutno
                         self.enemy_position = (self.enemy_position[0] + 1, self.enemy_position[1])
                         sleep(0.025)
-
         self.canDown = True
 '''
-
-
-
-

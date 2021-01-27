@@ -111,23 +111,9 @@ class Map(QFrame):
                                        QPixmap('images/enemy_right_blue_capture.png'))
                 elif self.board[x][y] == 15:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
-                                       QPixmap('images/enemy_left_blue_capture.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('images/enemy_left_blue_capture.png'))
                 elif self.board[x][y] == 16:
                     painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
-                                       QPixmap('characters/boris_right.png'))
-                elif self.board[x][y] == 17:
-                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
-                                       QPixmap('characters/boris_left.png'))
-                elif self.board[x][y] == 18:
-                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
-                                       QPixmap('characters/bonie_right.png'))
-                elif self.board[x][y] == 19:
-                    painter.fillRect(y * self.block_w, x * self.block_h, self.block_w, self.block_h, Qt.black)
-                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h,
-                                       QPixmap('characters/bonie_left.png'))
+                    painter.drawPixmap(y * self.block_w, x * self.block_h, self.block_w, self.block_h, QPixmap('images/Sila.png'))
 
         self.update()

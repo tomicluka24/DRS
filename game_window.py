@@ -70,9 +70,9 @@ class GameWindow(QMainWindow):
         #self.enemyPosition = Thread(target=self.__update_enemyPosition__, args=[])
         #elf.enemyPosition.start()
 
-        #self.pojavaSile = QThread
-        #self.pojavaSile = Thread(target=self.__pojavaSile__, args=[])
-        #self.pojavaSile.start()
+        self.pojavaSile = QThread
+        self.pojavaSile = Thread(target=self.__pojavaSile__, args=[])
+        self.pojavaSile.start()
 
         self.init_ui()
 
@@ -148,9 +148,32 @@ class GameWindow(QMainWindow):
             time.sleep(2)
 
     def __pojavaSile__(self):
-        #time.sleep(random.randrange(10, 30))
-        #time.sleep(5)
-        self.map.board[14][9] = 16
+        time.sleep(random.randrange(3, 10))
+        p = random.randrange(3)
+        if (p == 0):
+            c = 11
+        elif (p == 1):
+            c = 8
+        elif (p == 2):
+            c = 5
+        o = random.randrange(8)
+        if (o == 0):
+            d = 4
+        elif (o == 1):
+            d = 5
+        elif (o == 2):
+            d = 6
+        elif (o == 3):
+            d = 7
+        elif (o == 4):
+            d = 8
+        elif (o == 5):
+            d = 9
+        elif (o == 6):
+            d = 10
+        elif (o == 7):
+            d = 11
+        self.map.board[c][d] = 16
 
 
     def closeEvent(self, event):
