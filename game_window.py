@@ -6,9 +6,8 @@ from player import Player
 from enemy import Enemy
 from key_notifier import KeyNotifier
 
-
 import time
-
+import random
 from threading import Thread
 
 SCREEN_WIDTH = 1200
@@ -40,16 +39,20 @@ class GameWindow(QMainWindow):
         self.p2.player_position = (14, 14)
         self.e1 = Enemy('benzo', self.map, 10, 11)
         self.e1.enemy_position = (5, 5)
-        self.e2 = Enemy('boris', self.map, 16, 17)
+        self.e2 = Enemy('boris', self.map, 10, 11)
         self.e2.enemy_position = (5, 10)
-        self.e3 = Enemy(' bonie ', self.map, 18, 19)
+        self.e3 = Enemy(' bonie ', self.map, 10, 11)
         self.e3.enemy_position = (11, 8)
+        #self.sila=Sila('sila', self.map, 16)
+        self.map.player1=self.p1
+        self.map.player2=self.p2
 
         self.map.board[5][5] = 10
-        self.map.board[11][8] = 18
+        self.map.board[11][8] = 10
         self.map.board[14][5] = 2
         self.map.board[14][14] = 5
-        self.map.board[5][10] = 16
+
+
 
         self.map.board[15][0] = 6
         self.map.board[15][1] = 6
@@ -63,9 +66,13 @@ class GameWindow(QMainWindow):
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
-        self.enemyPosition = QThread
-        self.enemyPosition = Thread(target=self.__update_enemyPosition__, args=[])
-        self.enemyPosition.start()
+        #self.enemyPosition = QThread
+        #self.enemyPosition = Thread(target=self.__update_enemyPosition__, args=[])
+        #elf.enemyPosition.start()
+
+        #self.pojavaSile = QThread
+        #self.pojavaSile = Thread(target=self.__pojavaSile__, args=[])
+        #self.pojavaSile.start()
 
         self.init_ui()
 
@@ -90,7 +97,6 @@ class GameWindow(QMainWindow):
         self.key_notifier.add_key(event.key())
 
     def __update_position__(self, key):
-
         if key == Qt.Key_D:
             self.player1_thread = Thread(target=self.p1.moveRight, args=[])
             self.player1_thread.start()
@@ -121,6 +127,15 @@ class GameWindow(QMainWindow):
         elif key == Qt.Key_0:
             self.player2_thread = Thread(target=self.p2.shoot, args=[])
             self.player2_thread.start()
+        elif key==Qt.Key_8:
+            self.e1_t = Thread(target=self.e1.enemy_jump, args=[])
+            self.e1_t.start()
+        elif key==Qt.Key_4:
+            self.e1_t = Thread(target=self.e1.enemy_move_left, args=[])
+            self.e1_t.start()
+        elif key==Qt.Key_6:
+            self.e1_t = Thread(target=self.e1.enemy_move_right, args=[])
+            self.e1_t.start()
 
     def __update_enemyPosition__(self):
         while (self.e1.alive == True):
@@ -131,6 +146,12 @@ class GameWindow(QMainWindow):
             self.e3_thread = Thread(target=self.e3.pomeranje, args=[])
             self.e3_thread.start()
             time.sleep(2)
+
+    def __pojavaSile__(self):
+        #time.sleep(random.randrange(10, 30))
+        #time.sleep(5)
+        self.map.board[14][9] = 16
+
 
     def closeEvent(self, event):
         self.key_notifier.die()

@@ -21,6 +21,11 @@ class Map(QFrame):
         self.block_w = 75
         self.block_h = 50
 
+        self.player1 = None
+        self.player2 = None
+
+
+
         self.board = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
