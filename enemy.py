@@ -27,10 +27,10 @@ class Enemy(QLabel):
         self.imun = False
 
     def enemy_move_right(self):
-        if self.alive == False:
+        if self.alive == False or self.canJump == False:
             print('mrtav je ne moze da se pomera')
-        if (self.canJump == False):
-            print("Can't move while jumping")
+
+
         else:
             if self.mapa.board[self.enemy_position[0]][self.enemy_position[1] + 1] == 0:
                 print("Protivnik ne moze desno")
@@ -63,10 +63,10 @@ class Enemy(QLabel):
             self.canJump = True
 
     def enemy_move_left(self):
-        if self.alive == False:
+        if self.alive == False or self.canJump == False:
             print('mrtav je ne moze da se pomera')
-        if (self.canJump == False):
-            print("Can't move while jumping")
+        #if (self.canJump == False):
+            #print("Can't move while jumping")
         else:
             if self.mapa.board[self.enemy_position[0]][self.enemy_position[1] + -1] == 0:
                 print("Protivnik ne moze levo")
@@ -98,10 +98,10 @@ class Enemy(QLabel):
             self.canJump = True
 
     def enemy_jump(self):
-        if self.alive == False:
+        if self.alive == False or self.canJump == False:
             print('mrtav je ne moze da se pomera')
-        if self.canJump == False:
-            print("Protivnik ne moze gore")
+        #if self.canJump == False:
+            #print("Protivnik ne moze gore")
         else:
             self.canJump = False
             # trenutno na prorezu, svakim skokom se pomera gore za jedno a gde bio crta crno jer je prorez

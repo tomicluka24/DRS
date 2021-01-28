@@ -23,7 +23,7 @@ class Map(QFrame):
 
         self.player1 = None
         self.player2 = None
-
+        self.enemies = None
 
 
         self.board = [
