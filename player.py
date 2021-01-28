@@ -32,7 +32,7 @@ class Player(QLabel):
         self.pokupioSilu = False
 
     def moveRight(self):
-        if (self.canJump == False):
+        if(self.canJump == False):
             print("Can't move while jumping")
         else:
             if self.mapa.board[self.player_position[0]][self.player_position[1] + 1] == 0:
@@ -112,8 +112,9 @@ class Player(QLabel):
                 self.pokupioSilu = True
 
     def moveLeft(self):
-        if (self.canJump == False):
-            print("Can't move while jumping")
+
+        if(self.canJump == False):
+            print("Can't move while jumping ili nemas vise zivota")
         else:
             if self.mapa.board[self.player_position[0]][self.player_position[1] + -1] == 0:
                 print("CAN'T MOVE, WALL")
@@ -514,6 +515,7 @@ class Player(QLabel):
         self.canJump = True
 
     def shoot(self):
+
         if(self.pokupioSilu == True):
             a=6
         else:
@@ -536,7 +538,9 @@ class Player(QLabel):
                     # ako je balon na sledecoj poziciji naisao na neprijatelja koji gleda u desno i zarobi ga
                     elif self.mapa.board[x][y + i] == 10:
                         self.mapa.board[x][y + i] = 12
-
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y+i)):
+                                self.mapa.enemies[k].alive = False
                         print("UVatio neprijatelja")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -547,6 +551,9 @@ class Player(QLabel):
                         break
                     elif self.mapa.board[x][y + i] == 11:
                         self.mapa.board[x][y + i] = 13
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y + i)):
+                                self.mapa.enemies[k].alive=False
                         print("P1 koji gleda desno uhvatio neprijatelja koji gleda levo")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -573,6 +580,9 @@ class Player(QLabel):
                     # ako je balon na sledecoj poziciji naisao na neprijatelja koji gleda u desno i zarobi ga
                     elif self.mapa.board[x][y - i] == 10:
                         self.mapa.board[x][y - i] = 12
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y-i)):
+                                self.mapa.enemies[k].alive=False
                         print("P1 koji gleda levo uhvatio neprijatelja koji gleda desno")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -583,6 +593,9 @@ class Player(QLabel):
                         break
                     elif self.mapa.board[x][y - i] == 11:
                         self.mapa.board[x][y - i] = 13
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y-i)):
+                                self.mapa.enemies[k].alive=False
                         print("P1 koji gleda levo uhvatio neprijatelja koji gleda levo")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -610,6 +623,9 @@ class Player(QLabel):
                         print("Set to black")
                     elif self.mapa.board[x][y + i] == 10:
                         self.mapa.board[x][y + i] = 14
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y+i)):
+                                self.mapa.enemies[k].alive=False
                         print("P2 uhvation neprijatelja koji gleda u desno ")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -620,6 +636,9 @@ class Player(QLabel):
                         break
                     elif self.mapa.board[x][y + i] == 11:
                         self.mapa.board[x][y + i] = 15
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y+i)):
+                                self.mapa.enemies[k].alive=False
                         print("P2 koji gleda desno uhvatio neprijatelja koji gleda levo")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -644,6 +663,10 @@ class Player(QLabel):
                         print("Set to black")
                     elif self.mapa.board[x][y - i] == 10:
                         self.mapa.board[x][y - i] = 14
+
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x,y-i)):
+                                self.mapa.enemies[k].alive=False
                         print("P2 uhvation neprijatelja koji gleda u desno ")
                         sleep(15)
                         print("Neprijatelj nestao")
@@ -654,6 +677,9 @@ class Player(QLabel):
                         break
                     elif self.mapa.board[x][y - i] == 11:
                         self.mapa.board[x][y - i] = 15
+                        for k in range(3):
+                            if( self.mapa.enemies[k].enemy_position == (x, y-i)):
+                                self.mapa.enemies[k].alive=False
                         print("P2 koji gleda levo uhvatio neprijatelja koji gleda levo")
                         sleep(15)
                         print("Neprijatelj nestao")

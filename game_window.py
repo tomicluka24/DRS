@@ -137,18 +137,21 @@ class GameWindow(QMainWindow):
             self.e1_t = Thread(target=self.e1.enemy_move_right, args=[])
             self.e1_t.start()
 '''
+        ###########pusovati ovaj kod
     def __update_enemyPosition__(self):
         while True:
             if(self.e1.alive == True):
                 self.e1_thread = Thread(target=self.e1.pomeranje, args=[])
                 self.e1_thread.start()
-            if (self.e1.alive == True):
+
+            if (self.e2.alive == True):
                 self.e2_thread = Thread(target=self.e2.pomeranje, args=[])
                 self.e2_thread.start()
-            if(self.e1.alive == True):
+            if(self.e3.alive == True):
                 self.e3_thread = Thread(target=self.e3.pomeranje, args=[])
                 self.e3_thread.start()
             time.sleep(2)
+
 
     def __pojavaSile__(self):
         time.sleep(random.randrange(3, 10))
