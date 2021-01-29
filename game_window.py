@@ -22,6 +22,7 @@ SCREEN_HEIGHT = 800
 P1_INIT_POS = (14, 5)
 P2_INIT_POS = (14, 14)
 
+brzina = 0
 
 class GameWindow(QMainWindow):
     win_change_signal = QtCore.pyqtSignal()
@@ -31,7 +32,7 @@ class GameWindow(QMainWindow):
 
         # p1 = green
         # p2 = blue
-
+        self.brzina = 0
         self.map = Map()
         self.p1 = Player(list_of_names[0], self.map, 2, 3)
         self.p1.player_position = (14, 5)
@@ -152,7 +153,7 @@ class GameWindow(QMainWindow):
             self.e3_thread.start()
             if (self.map.enemies[0].alive == False and self.map.enemies[1].alive == False and self.map.enemies[2].alive == False):
                break
-            time.sleep(2)
+            time.sleep(2-self.brzina)
 
 
     def __pojavaSile__(self):
@@ -201,7 +202,7 @@ class GameWindow(QMainWindow):
                   # self.sila=Sila('sila', self.map, 16)
                   self.map.player1 = self.p1
                   self.map.player2 = self.p2
-
+                  self.brzina = self.brzina + 0.1
 
 
                   list = []  # (self.e1,self.e2, self.e3)
@@ -217,6 +218,10 @@ class GameWindow(QMainWindow):
                     self.map.board[14][5] = 2
                   if(self.p2.zivoti!=0):
                     self.map.board[14][14] = 5
+                  if(self.p1.pokupioSilu==True):
+                      self.p1.pokupioSilu=False
+                  if (self.p2.pokupioSilu == True):
+                      self.p2.pokupioSilu = False
 
                   self.map.update()
                   #break
