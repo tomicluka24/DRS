@@ -2,11 +2,13 @@ from PyQt5.QtWidgets import *
 from PyQt5 import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+
+import exit_window
 import main_menu
 import enter_names_menu
 import game_window
 import sys
-import ExitWindow
+
 
 class WindowController:
 
@@ -32,9 +34,36 @@ class WindowController:
         p1_name = self.enter_names_menu.bub_name.text().strip()
         p2_name = self.enter_names_menu.bob_name.text().strip()
         self.game_window = game_window.GameWindow([p1_name, p2_name])
+        self.game_window.win_change_signal.connect(self.show_end_screen)
         self.game_window.show()
 
+    def show_end_screen(self):
 
+        print("Showing end screen")
+        bubovo_ime = self.game_window.p1.player_name
+        bobovo_ime = self.game_window.p2.player_name
+        print("AAA")
+        bubovi_poeni = self.game_window.p1.points
+
+        print("AAA1")
+        bobovi_poeni = self.game_window.p2.points
+
+
+        longer=self.game_window.player1LastedLonger
+        print("AAA2")
+        self.game_window.close()
+        print("AAA3")
+
+
+        self.endscreen=exit_window.ExitWindow1(bubovo_ime,bobovo_ime,bubovi_poeni,bobovi_poeni,longer)
+
+
+        print("BBB")
+        #self.endscren.bub_name.text=bubovo_ime
+        print("AAA")
+        self.endscreen.show()
+
+        print("Prikaz end skrina")
 
 if __name__ == '__main__':
 

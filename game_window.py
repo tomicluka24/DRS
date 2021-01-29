@@ -84,7 +84,12 @@ class GameWindow(QMainWindow):
         self.nivo = Thread(target=self.__thread_Nivo__, args=[])
         self.nivo.start()
 
+
         self.init_ui()
+
+        self.lives = QThread
+        self.lives = Thread(target=self.provera, args=[])
+        self.lives.start()
 
         # self.__update_enemyPosition__()
 
@@ -95,6 +100,18 @@ class GameWindow(QMainWindow):
         self.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 
         self.setCentralWidget(self.map)
+
+    def provera(self):
+        while(True):
+            if(self.p1.zivoti>0 and self.p2.zivoti==0):
+                self.player1LastedLonger=True
+            if(self.p2.zivoti>0 and self.p1.zivoti==0):
+                self.player1LastedLonger=False
+
+            if(self.p1.zivoti==0 and self.p2.zivoti==0):
+                print("Oba mrtva")
+                self.win_change_signal.emit()
+                break
 
     def keyPressEvent(self, event):
         self.key_notifier.add_key(event.key())
