@@ -8,7 +8,7 @@ from key_notifier import KeyNotifier
 
 import time
 import random
-from threading import Thread
+from threading import *
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
@@ -79,6 +79,10 @@ class GameWindow(QMainWindow):
         self.pojavaSile = Thread(target=self.__pojavaSile__, args=[])
         self.pojavaSile.start()
 
+        self.nivo = QThread
+        self.nivo = Thread(target=self.__thread_Nivo__, args=[])
+        self.nivo.start()
+
         self.init_ui()
 
         # self.__update_enemyPosition__()
@@ -140,16 +144,14 @@ class GameWindow(QMainWindow):
         ###########pusovati ovaj kod
     def __update_enemyPosition__(self):
         while True:
-            if(self.e1.alive == True):
-                self.e1_thread = Thread(target=self.e1.pomeranje, args=[])
-                self.e1_thread.start()
-
-            if (self.e2.alive == True):
-                self.e2_thread = Thread(target=self.e2.pomeranje, args=[])
-                self.e2_thread.start()
-            if(self.e3.alive == True):
-                self.e3_thread = Thread(target=self.e3.pomeranje, args=[])
-                self.e3_thread.start()
+            self.e1_thread = Thread(target=self.e1.pomeranje, args=[])
+            self.e1_thread.start()
+            self.e2_thread = Thread(target=self.e2.pomeranje, args=[])
+            self.e2_thread.start()
+            self.e3_thread = Thread(target=self.e3.pomeranje, args=[])
+            self.e3_thread.start()
+            if (self.map.enemies[0].alive == False and self.map.enemies[1].alive == False and self.map.enemies[2].alive == False):
+               break
             time.sleep(2)
 
 
@@ -181,6 +183,54 @@ class GameWindow(QMainWindow):
             d = 11
         self.map.board[c][d] = 16
 
+    def __thread_Nivo__(self):
+        while True:
+            if(self.map.enemies[0].alive == False and self.map.enemies[1].alive == False and self.map.enemies[2].alive == False):
+                  self.map.board[self.p1.player_position[0]][self.p1.player_position[1]] = 1
+                  self.map.board[self.p2.player_position[0]][self.p2.player_position[1]] = 1
+                  #self.p1 = Player('zeleni', self.map, 2, 3)
+                  self.p1.player_position = (14, 5)
+                  #self.p2 = Player('plavi', self.map, 4, 5)
+                  self.p2.player_position = (14, 14)
+                  self.e1 = Enemy('benzo', self.map, 10, 11)
+                  self.e1.enemy_position = (5, 5)
+                  self.e2 = Enemy('boris', self.map, 10, 11)
+                  self.e2.enemy_position = (5, 10)
+                  self.e3 = Enemy(' bonie ', self.map, 10, 11)
+                  self.e3.enemy_position = (11, 8)
+                  # self.sila=Sila('sila', self.map, 16)
+                  self.map.player1 = self.p1
+                  self.map.player2 = self.p2
+
+
+
+                  list = []  # (self.e1,self.e2, self.e3)
+                  list.append(self.e1)
+                  list.append(self.e2)
+                  list.append(self.e3)
+                  self.map.enemies = list
+
+                  self.map.board[5][5] = 10
+                  self.map.board[5][10] = 10
+                  self.map.board[11][8] = 10
+                  if(self.p1.zivoti!=0):
+                    self.map.board[14][5] = 2
+                  if(self.p2.zivoti!=0):
+                    self.map.board[14][14] = 5
+
+                  self.map.update()
+                  #break
+
+        '''
+
+              self.map.board[15][0] = 6
+              self.map.board[15][1] = 6
+              self.map.board[15][2] = 6
+
+              self.map.board[15][15] = 7
+              self.map.board[15][14] = 7
+              self.map.board[15][13] = 7
+            '''
 
     def closeEvent(self, event):
         self.key_notifier.die()

@@ -6,6 +6,7 @@ import main_menu
 import enter_names_menu
 import game_window
 import sys
+import ExitWindow
 
 class WindowController:
 
@@ -33,8 +34,10 @@ class WindowController:
         self.game_window = game_window.GameWindow([p1_name, p2_name])
         self.game_window.show()
 
+
+
 if __name__ == '__main__':
-    print("MRS")
+
     App = QApplication(sys.argv)
 
     windowController = WindowController()
